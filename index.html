@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SNGres – Tìm phòng trọ, căn hộ dịch vụ</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/detail.css">
+</head>
+<body>
+<div class="ann" id="ann"></div>
+
+<header><div class="w">
+  <a class="logo" href="#" data-logo></a>
+  <label class="loc">Khu vực<select id="city" aria-label="Chọn khu vực"></select></label>
+  <form class="sb" id="sf"><select id="sc"><option>Tất cả</option><option>Phòng trọ</option><option>Căn hộ</option><option>Ký túc xá</option><option>Mặt bằng</option></select>
+    <input id="q" placeholder="Tìm theo tên đường, quận, tòa nhà..." aria-label="Tìm kiếm">
+    <button aria-label="Tìm"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="7"/><path d="M16 16l5 5"/></svg></button></form>
+  <div class="ic">
+    <button id="bl"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8z"/></svg><span>Đăng nhập</span></button>
+    <button id="bf"><svg viewBox="0 0 24 24"><path d="M12 20s-8-5-8-10.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 8 3.5C20 15 12 20 12 20z"/></svg><span>Yêu thích</span><em id="fc">0</em></button>
+    <button id="bc"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M9 15l2 2 4-4"/></svg><span>Lịch hẹn</span><em id="cc">0</em></button>
+  </div>
+</div></header>
+<nav class="cat"><div class="w"><a href="#lst" data-t="Tất cả" class="jt" data-set="nav_search"></a><a href="#lst" data-t="Căn hộ" class="jt" data-set="nav_apartment"></a><a href="#lst" data-t="Ký túc xá" class="jt" data-set="nav_dorm"></a><a href="#lst" data-t="Mặt bằng" class="jt" data-set="nav_space"></a></div></nav>
+
+<main class="w">
+  <section class="hero1">
+    <div class="ban th" id="ban"></div>
+    <div class="tiles" id="tl"></div>
+    <div class="qs"><b>Tìm nhanh:</b><span id="sd"></span></div>
+  </section>
+
+  <form class="flt2" id="flt" onsubmit="return false">
+    <div class="bar2">
+      <div class="ls"><span>&#128205;</span><select id="fcity" aria-label="Tỉnh/Thành phố"></select><select id="fd" aria-label="Quận/Huyện"></select></div>
+      <input id="fq" type="search" placeholder="Nhập nội dung tìm kiếm" aria-label="Nhập nội dung tìm kiếm">
+      <select id="fs" aria-label="Sắp xếp theo"><option value="">Mới nhất</option><option value="a">Giá tăng dần</option><option value="d">Giá giảm dần</option><option value="f">Còn nhiều phòng nhất</option></select>
+      <button type="button" class="go" id="fgo2">Tìm kiếm</button>
+    </div>
+    <div class="row3">
+      <select id="ft" aria-label="Loại phòng"></select>
+      <select id="fp" aria-label="Khoảng giá"></select>
+      <div class="amw" id="amw"><button type="button" id="fam">Tiện ích</button><div class="amp"><div class="chips" id="ac"></div></div></div>
+    </div>
+  </form>
+
+  <section class="band"><h2>Phòng giá sốc hôm nay &rsaquo;</h2><div class="sc" id="deals"></div></section>
+
+  <section class="sec" id="lst">
+    <div class="sh"><h2>Có thể bạn thích</h2><span id="rs" style="font-size:13px;color:var(--mut)"></span></div>
+    <div class="tabs" id="tabs"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+
+
+  <section class="sec news th"><h2 data-set="lead_title"></h2><p data-set="lead_desc"></p>
+    <form class="em" id="nf"><input type="tel" data-ph="lead_placeholder" aria-label="Số điện thoại" pattern="0[0-9]{9}" title="Nhập số điện thoại 10 số, bắt đầu bằng 0" required><button data-set="lead_btn"></button></form></section>
+
+</main>
+<section class="w" id="pg" hidden></section>
+<footer><div class="w"><div class="fgd">
+  <div><div class="logo" data-logo></div><p style="margin-top:10px"><span data-set="footer_desc"></span><br><span data-set="footer_contact"></span></p></div>
+  <div><h4>Hướng dẫn</h4><ul><li>Điều khoản sử dụng</li><li>Quy chế hoạt động</li><li>Chính sách bảo mật</li></ul></div>
+  <div><h4>Dịch vụ</h4><ul><li>Hợp tác</li><li>Ký gửi CHDV</li><li>Tuyển dụng</li></ul></div>
+  <div><h4>Khu vực</h4><select style="background:transparent;color:#fff;border:2px solid #fff;border-radius:10px;padding:10px"><option style="color:#000">Việt Nam (VND ₫)</option></select></div>
+</div><div class="copy" data-set="copyright"></div></div></footer>
+
+<nav class="mb"><a href="#">&#8962;<br>Trang chủ</a><a href="#">&#9993;<br>Nhắn tin</a><a href="#lst">&#128269;<br>Tìm phòng</a><a href="#">&#128188;<br>Tìm việc</a><a href="#">&#128100;<br>Tài khoản</a></nav>
+
+<div class="toast" id="ts"></div>
+
+<script src="config.js"></script>
+<script src="js/core.js"></script>
+<script src="js/state.js"></script>
+<script src="js/listing.js"></script>
+<script src="js/detail.js"></script>
+<script src="js/events.js"></script>
+<script src="js/settings.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
