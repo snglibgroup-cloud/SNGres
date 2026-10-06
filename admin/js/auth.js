@@ -8,7 +8,7 @@ else{sb=supabase.createClient(CFG.SUPABASE_URL,CFG.SUPABASE_ANON_KEY);
 $('lf').onsubmit=async e=>{e.preventDefault();if(!sb)return;$('lbtn').disabled=true;$('lerr').hidden=true;
   const {error}=await sb.auth.signInWithPassword({email:$('lem').value.trim(),password:$('lpw').value});
   $('lbtn').disabled=false;
-  if(error)return showLogin('Sai email hoặc mật khẩu.');
+  if(error)return showLogin((/invalid login/i.test(error.message)?'Sai email hoặc mật khẩu.':'Lỗi đăng nhập: '+error.message));
   $('lpw').value='';enter()};
 
 async function enter(){
