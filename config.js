@@ -4,5 +4,5 @@ window.NT_CONFIG = {
   SUPABASE_URL: 'https://hczvarqmsxnvzldsmvrc.supabase.co',
   SUPABASE_ANON_KEY: 'sb_publishable_uBxrsUoOT2tc20_4qVSAWg_8QhsQ2HS',
   // Địa chỉ Cloudflare Worker nhận ảnh (để trống = dùng kho ảnh Supabase)
-  R2_UPLOAD_URL: ''
+  R2_UPLOAD_URL: 'https://sngres-upload.seangogroup.workers.dev'
 };
