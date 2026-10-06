@@ -103,15 +103,28 @@
     <div class="grid2">
       <div class="f"><label class="l">Mô tả</label><textarea id="f-desc" rows="5" maxlength="3000" placeholder="Giới thiệu ngắn về phòng, vị trí, điều kiện thuê... (để trống sẽ dùng mô tả tự động)"></textarea></div>
       <div class="f">
-        <label class="l">Ảnh đại diện (JPG/PNG/WebP, tối đa 3MB)</label>
+        <label class="l">Ảnh đại diện (JPG/PNG/WebP, tự nén nhẹ khi tải lên)</label>
         <div id="f-pv" hidden><div class="pv" id="f-pvi"></div><label style="font-size:14px"><input type="checkbox" id="f-rm" style="width:auto;height:auto"> Xóa ảnh hiện tại</label><br><br></div>
         <input type="file" id="f-img" accept="image/jpeg,image/png,image/webp" style="height:auto;padding:8px">
         <div class="hint">Chọn ảnh mới sẽ thay ảnh cũ. Không có ảnh thì web hiển thị nền màu mặc định.</div>
       </div>
     </div>
+    <div class="sec">Danh sách phòng trống (số phòng, lầu, giá)</div>
+    <div id="f-units"></div>
+    <button type="button" class="btn g s" id="f-uadd">+ Thêm số phòng</button>
+    <div class="hint">Nhập đúng các phòng đang trống (VD: 101, A2). Lầu và giá riêng có thể để trống; để trống giá = dùng giá chung ở trên. Có nhập danh sách thì "Số phòng trống" tự bằng số dòng. Không nhập thì website không hiện số phòng nào.</div>
+    <div class="sec">Tiện nghi trong phòng</div>
+    <div class="chk" id="f-ram"></div>
+    <div class="sec">Chi phí &amp; điều kiện <span style="text-transform:none;letter-spacing:0;font-weight:400">(ô nào để trống thì không hiện)</span></div>
+    <div class="grid3" id="f-costs"></div>
+    <div class="sec">Thông tin chi tiết <span style="text-transform:none;letter-spacing:0;font-weight:400">(để trống thì không hiện)</span></div>
+    <div class="grid3" id="f-dets"></div>
+    <div class="sec">Xung quanh có</div>
+    <textarea id="f-nearby" rows="4" maxlength="1000" placeholder="Mỗi dòng một mục, dạng: Tên | số phút&#10;VD: Chợ | 5&#10;Trường đại học | 10"></textarea>
     <div class="sec">Hiển thị</div>
     <div class="chk">
       <label><input type="checkbox" id="f-hot"> Gắn nhãn Hot 🔥</label>
+      <label><input type="checkbox" id="f-ver"> Hiện nhãn "Đã xác thực"</label>
       <label><input type="checkbox" id="f-active" checked> Hiển thị trên website</label>
     </div>
     <div style="display:flex;gap:10px;margin-top:24px">
@@ -126,6 +139,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../config.js"></script>
 <script src="js/core.js"></script>
+<script src="js/images.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/rooms.js"></script>
 <script src="js/site.js"></script>

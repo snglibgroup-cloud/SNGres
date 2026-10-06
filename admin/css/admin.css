@@ -51,3 +51,5 @@ label.l{display:block;font-size:13px;font-weight:600;color:#5b6b80;margin-bottom
 .md h2{margin:0 0 16px;font-size:22px}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0f2742;color:#fff;padding:10px 20px;border-radius:30px;font-size:14px;z-index:90;opacity:0;pointer-events:none;transition:.3s}.toast.on{opacity:1}.toast.bad{background:#b42318}
 @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}.lg small{display:none}.top .w{overflow-x:auto}}
+
+.urow{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;margin-bottom:8px}.urow input{min-width:0}

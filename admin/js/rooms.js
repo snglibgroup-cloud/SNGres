@@ -1,3 +1,18 @@
+// ---------- phần nhập chi tiết phòng ----------
+const RAMS=['Giường','Nệm','Tủ quần áo','Thang máy','Wifi','Kệ bếp','Nước nóng','Tủ lạnh'];
+const COSTS=[['Điện','VD: 3.8k/kWh'],['Nước','VD: 100k/người'],['Dịch vụ','VD: 200k/phòng'],['Giữ xe','VD: 100k/xe'],['Internet','VD: 100k/phòng'],['Giặt','VD: 50k/người'],['Đặt cọc','VD: 1 tháng'],['Xe điện','VD: Nhận xe điện']];
+const DETS=[['Toilet','VD: Riêng'],['Máy giặt','VD: Chung'],['Để xe','VD: Chung'],['Giờ giấc','VD: 23h – 5h']];
+$('f-ram').innerHTML=RAMS.map(a=>`<label><input type="checkbox" value="${esc(a)}"> ${esc(a)}</label>`).join('');
+const kvIn=a=>a.map(([k,ph])=>`<div><label class="l">${esc(k)}</label><input data-k="${esc(k)}" maxlength="60" placeholder="${esc(ph)}"></div>`).join('');
+$('f-costs').innerHTML=kvIn(COSTS);$('f-dets').innerHTML=kvIn(DETS);
+function addUnit(u={}){const d=document.createElement('div');d.className='urow';
+  d.innerHTML=`<input class="u-no" maxlength="10" placeholder="Số phòng *" value="${esc(u.no||'')}"><input class="u-fl" maxlength="20" placeholder="Lầu (tùy chọn)" value="${esc(u.floor||'')}"><input class="u-pr" type="number" step="0.01" min="0.01" placeholder="Giá triệu (tùy chọn)" value="${u.price>0?num(u.price):''}"><button type="button" class="btn r s u-x">✕</button>`;
+  $('f-units').appendChild(d)}
+$('f-uadd').onclick=()=>addUnit();
+$('f-units').onclick=e=>{const x=e.target.closest('.u-x');if(x)x.parentElement.remove()};
+const readKV=id=>Object.fromEntries([...document.querySelectorAll('#'+id+' input')].map(i=>[i.dataset.k,i.value.trim()]).filter(x=>x[1]));
+const fillKV=(id,o)=>document.querySelectorAll('#'+id+' input').forEach(i=>i.value=(o&&o[i.dataset.k])||'');
+
 // ---------- tab ----------
 document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('on',x===b));
@@ -32,7 +47,7 @@ $('rt').onclick=async e=>{const b=e.target.closest('[data-a]');if(!b)return;
   if(b.dataset.a==='del'){if(!confirm(`Xóa phòng "${r.name}"? Không thể hoàn tác.`))return;
     const {error}=await sb.from('rooms').delete().eq('id',r.id);
     if(error)return toast('Lỗi: '+error.message,true);
-    if(r.image_path)await sb.storage.from(BUCKET).remove([r.image_path]);
+    if(r.image_path)await removeImage(r.image_path);
     toast('Đã xóa phòng');loadAll()}};
 
 // ---------- form thêm / sửa ----------
@@ -47,6 +62,9 @@ function openForm(r){
   set('f-free',r?.free_rooms??1);set('f-total',r?.total_rooms??1);set('f-area',r?.area);set('f-desc',r?.description);
   document.querySelectorAll('#f-am input').forEach(i=>i.checked=!!r&&(r.amenities||[]).includes(i.value));
   $('f-hot').checked=!!r?.hot;$('f-active').checked=r?r.is_active:true;
+  $('f-units').innerHTML='';(r?.units||[]).forEach(addUnit);
+  document.querySelectorAll('#f-ram input').forEach(i=>i.checked=!!r&&(r.room_amenities||[]).includes(i.value));
+  fillKV('f-costs',r?.costs);fillKV('f-dets',r?.details);set('f-nearby',r?.nearby);$('f-ver').checked=!!r?.verified;
   $('f-img').value='';$('f-rm').checked=false;
   $('f-pv').hidden=!r?.image_path;if(r?.image_path)$('f-pvi').style.backgroundImage=`url('${imgUrl(r.image_path)}')`;
   $('ov').hidden=false;$('ov').scrollTop=0}
@@ -56,7 +74,14 @@ $('rf').onsubmit=async e=>{e.preventDefault();
   const rec={name:v('f-name'),type:v('f-type'),city:v('f-city'),district:v('f-district'),address:v('f-address'),
     free_rooms:+v('f-free'),total_rooms:+v('f-total'),price_min:+v('f-pmin'),price_max:+v('f-pmax'),discount:+v('f-disc')||0,
     area:v('f-area')?+v('f-area'):null,description:v('f-desc')||null,hot:$('f-hot').checked,is_active:$('f-active').checked,
-    amenities:[...document.querySelectorAll('#f-am input:checked')].map(i=>i.value)};
+    amenities:[...document.querySelectorAll('#f-am input:checked')].map(i=>i.value),
+    units:[...document.querySelectorAll('#f-units .urow')].map(w=>({no:w.querySelector('.u-no').value.trim(),floor:w.querySelector('.u-fl').value.trim(),price:w.querySelector('.u-pr').value?+w.querySelector('.u-pr').value:null})).filter(u=>u.no||u.floor||u.price),
+    room_amenities:[...document.querySelectorAll('#f-ram input:checked')].map(i=>i.value),
+    costs:readKV('f-costs'),details:readKV('f-dets'),nearby:v('f-nearby')||null,verified:$('f-ver').checked};
+  if(rec.units.some(u=>!u.no))errs.push('Mỗi dòng trong danh sách phòng phải có số phòng.');
+  if(new Set(rec.units.map(u=>u.no.toLowerCase())).size<rec.units.length)errs.push('Có số phòng bị trùng trong danh sách.');
+  if(rec.units.some(u=>u.price!==null&&!(u.price>0)))errs.push('Giá riêng của từng phòng phải lớn hơn 0.');
+  if(rec.units.length){rec.free_rooms=rec.units.length;if(rec.free_rooms>rec.total_rooms)errs.push('Danh sách có '+rec.free_rooms+' phòng trống, nhiều hơn tổng số phòng ('+rec.total_rooms+'). Hãy tăng Tổng số phòng.')}
   if(!rec.name||!rec.district||!rec.address)errs.push('Vui lòng nhập tên, quận/huyện và địa chỉ.');
   if(rec.total_rooms<1)errs.push('Tổng số phòng phải từ 1 trở lên.');
   if(rec.free_rooms<0||rec.free_rooms>rec.total_rooms)errs.push('Số phòng trống phải từ 0 đến tổng số phòng.');
@@ -65,17 +90,15 @@ $('rf').onsubmit=async e=>{e.preventDefault();
   if(rec.discount<0||rec.discount>90)errs.push('Giảm giá từ 0 đến 90%.');
   const file=$('f-img').files[0];
   if(file){if(!['image/jpeg','image/png','image/webp'].includes(file.type))errs.push('Chỉ chấp nhận ảnh JPG, PNG hoặc WebP.');
-    else if(file.size>3*1024*1024)errs.push('Ảnh tối đa 3MB.')}
+    else if(file.size>15*1024*1024)errs.push('Ảnh gốc tối đa 15MB (web sẽ tự nén nhỏ lại).')}
   const fail=m=>{$('ferr').innerHTML=m.map(esc).join('<br>');$('ferr').hidden=false;$('ov').scrollTop=0;$('fsave').disabled=false};
   if(errs.length)return fail(errs);
   $('fsave').disabled=true;
   let newPath=null;
-  if(file){newPath=crypto.randomUUID()+'.'+({'image/jpeg':'jpg','image/png':'png','image/webp':'webp'})[file.type];
-    const {error}=await sb.storage.from(BUCKET).upload(newPath,file,{contentType:file.type,upsert:false});
-    if(error)return fail(['Tải ảnh thất bại: '+error.message])}
+  if(file){try{newPath=await uploadImage(file)}catch(e){return fail(['Tải ảnh thất bại: '+e.message])}}
   const old=editing?.image_path||null;
   rec.image_path=newPath||($('f-rm').checked?null:old);
   const {error}=editing?await sb.from('rooms').update(rec).eq('id',editing.id):await sb.from('rooms').insert(rec);
-  if(error){if(newPath)await sb.storage.from(BUCKET).remove([newPath]);return fail(['Lưu thất bại: '+error.message])}
-  if(old&&old!==rec.image_path)await sb.storage.from(BUCKET).remove([old]);
+  if(error){if(newPath)await removeImage(newPath);return fail(['Lưu thất bại: '+error.message])}
+  if(old&&old!==rec.image_path)await removeImage(old);
   $('fsave').disabled=false;$('ov').hidden=true;toast(editing?'Đã lưu thay đổi':'Đã thêm phòng mới');loadAll()};

@@ -12,6 +12,6 @@ let sb,ROOMS=[],BK=[],LD=[],SET={},editing=null,S={q:'',type:'',page:1};
 function toast(m,bad){const t=$('ts');t.textContent=m;t.classList.toggle('bad',!!bad);t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),2600)}
 const num=n=>+(+n).toFixed(2);
 const dt=x=>x?new Date(x).toLocaleString('vi-VN',{hour12:false}):'—';
-const imgUrl=p=>CFG.SUPABASE_URL+'/storage/v1/object/public/'+BUCKET+'/'+encodeURIComponent(p);
+const imgUrl=p=>/^https?:\/\//.test(p)?p:CFG.SUPABASE_URL+'/storage/v1/object/public/'+BUCKET+'/'+encodeURIComponent(p);
 const opts=(a,sel)=>a.map(x=>`<option${x===sel?' selected':''}>${esc(x)}</option>`).join('');
 function showLogin(msg){$('app').hidden=true;$('login').hidden=false;$('lerr').hidden=!msg;$('lerr').textContent=msg||''}

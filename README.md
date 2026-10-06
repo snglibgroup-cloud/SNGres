@@ -56,5 +56,5 @@ Trên GitHub: **Settings → Pages → Build and deployment → Source: GitHub A
 - Form đặt lịch chưa có giới hạn số lần gửi theo IP (Supabase không cung cấp sẵn ở mức này). Nếu bị spam, có thể thêm Cloudflare Turnstile hoặc Edge Function có rate limit.
 - Nên bật *Point-in-time recovery* hoặc tự sao lưu database định kỳ.
 
-## Lưu ý
-Một số mục ở trang chi tiết phòng (tiện nghi trong phòng, bảng chi phí điện/nước, số phòng cụ thể 101, 102...) vẫn tự sinh từ dữ liệu phòng, chưa có ô nhập trong admin. Diện tích, mô tả, ảnh, giá, tiện ích chính và số phòng trống thì lấy đúng theo admin nhập.
+## Nội dung chi tiết phòng
+Trang chi tiết chỉ hiện những gì admin đã nhập, ô nào để trống thì không hiện. Trong form Thêm/Sửa phòng có: danh sách số phòng trống (kèm lầu và giá riêng), tiện nghi trong phòng, chi phí & điều kiện, thông tin chi tiết, xung quanh có, nhãn "Đã xác thực". Cần chạy `supabase/room_details.sql` một lần (đã nằm trong `schema.sql`).

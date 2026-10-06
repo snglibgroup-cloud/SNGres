@@ -32,7 +32,7 @@ function syncUI(){
   $('city').value=$('fcity').value=st.city;$('fd').value=st.dist;
   $('fp').value=st.pr.size?String([...st.pr][0]):'';$('fs').value=st.sort;
   $('ft').value=st.tab;$('fam').textContent=st.am.size?`Tiện ích (${st.am.size})`:'Tiện ích'}
-function card(r,i){return `<article class="rc th" data-i="${i}"><div class="im" style="background:${bg(r)}"><div class="bd">${r[9]?'<span class="h">Hot 🔥</span>':''}<span class="v">Đã xác thực</span>${r[10]?`<span>-${r[10]}%</span>`:''}</div><button class="fav" data-f="${i}">${fav.has(i)?'♥':'♡'}</button></div>
+function card(r,i){return `<article class="rc th" data-i="${i}"><div class="im" style="background:${bg(r)}"><div class="bd">${r[9]?'<span class="h">Hot 🔥</span>':''}${r[22]?'<span class="v">Đã xác thực</span>':''}${r[10]?`<span>-${r[10]}%</span>`:''}</div><button class="fav" data-f="${i}">${fav.has(i)?'♥':'♡'}</button></div>
 <div class="rb"><b>${r[0]}</b><div class="a">${r[3]}, ${r[2]}</div><div class="f">Trống ${r[4]}/${r[5]} phòng</div><div class="pr">${r[10]?`<s style="font-size:12px;color:#888;font-weight:400">${r[6]}</s> `:''}${fmt(dis(r),r[7])}</div></div></article>`}
 function render(){
   let L=R.map((r,i)=>[r,i]).filter(([r])=>match(r));

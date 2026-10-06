@@ -1,0 +1,15 @@
+# Dùng khi deploy bằng dòng lệnh: npx wrangler deploy
+# (Nếu làm trên giao diện Cloudflare thì không cần file này.)
+name = "sngres-upload"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "sngres-images"
+
+[vars]
+SUPABASE_URL = "https://hczvarqmsxnvzldsmvrc.supabase.co"
+SUPABASE_KEY = "sb_publishable_uBxrsUoOT2tc20_4qVSAWg_8QhsQ2HS"
+PUBLIC_URL = "https://pub-xxxxxxxx.r2.dev"      # đổi thành địa chỉ công khai của bucket
+ALLOWED_ORIGIN = "https://sngres-six.vercel.app"
