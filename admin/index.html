@@ -66,6 +66,10 @@
         <div class="sec">Form đặt lịch xem phòng – ô SĐT Zalo</div>
         <div class="grid2"><div class="f"><label class="l">Tên ô nhập</label><input id="s-book_zalo_label" maxlength="100"><div class="hint">Để trống nếu muốn ẩn ô SĐT Zalo khỏi form.</div></div>
         <div class="f"><label class="l">Chữ gợi ý trong ô</label><input id="s-book_zalo_ph" maxlength="100"></div></div>
+        <div class="sec">Nút "Nhận tư vấn miễn phí" – Zalo &amp; số điện thoại</div>
+        <div class="grid2"><div class="f"><label class="l">SĐT / số Zalo nhận tư vấn</label><input id="s-contact_phone" maxlength="15" inputmode="numeric" placeholder="VD: 0901234567"><div class="hint">Khách bấm nút sẽ thấy nút Zalo + số này (có nút Copy). Để trống = bấm nút sẽ mở form đặt lịch như cũ.</div></div>
+        <div class="f"><label class="l">Chữ trên nút Zalo</label><input id="s-contact_zalo_text" maxlength="60"></div>
+        <div class="f"><label class="l">Lưu ý hiển thị dưới nút</label><textarea id="s-contact_note" maxlength="300" rows="3" style="width:100%"></textarea><div class="hint">VD: nhắc khách liên hệ xem còn phòng không trước khi đến. Để trống để ẩn.</div></div></div>
         <div class="sec">Chân trang</div>
         <div class="grid2"><div class="f"><label class="l">Giới thiệu ngắn</label><input id="s-footer_desc" maxlength="200"></div>
         <div class="f"><label class="l">Dòng liên hệ / tổng đài</label><input id="s-footer_contact" maxlength="200"></div>
@@ -90,8 +94,8 @@
     </div>
     <div class="sec">Giá &amp; số lượng</div>
     <div class="grid3">
-      <div><label class="l">Giá thấp nhất (triệu/tháng) <em>*</em></label><input id="f-pmin" type="number" step="0.01" min="0.01" required></div>
-      <div><label class="l">Giá cao nhất (triệu/tháng) <em>*</em></label><input id="f-pmax" type="number" step="0.01" min="0.01" required></div>
+      <div><label class="l">Giá thấp nhất (đ/tháng) <em>*</em></label><input id="f-pmin" class="vnd" type="text" inputmode="numeric" autocomplete="off" placeholder="VD: 1.500.000" required></div>
+      <div><label class="l">Giá cao nhất (đ/tháng) <em>*</em></label><input id="f-pmax" class="vnd" type="text" inputmode="numeric" autocomplete="off" placeholder="VD: 2.000.000" required><div class="hint">Nhập đủ số tiền, ví dụ 1.500.000 (làm tròn đến 10.000đ).</div></div>
       <div><label class="l">Giảm giá (%)</label><input id="f-disc" type="number" min="0" max="90" value="0"><div class="hint">0 = không giảm. Có giảm giá sẽ lên mục "Giá sốc".</div></div>
       <div><label class="l">Số phòng trống <em>*</em></label><input id="f-free" type="number" min="0" required value="1"></div>
       <div><label class="l">Tổng số phòng <em>*</em></label><input id="f-total" type="number" min="1" required value="1"></div>

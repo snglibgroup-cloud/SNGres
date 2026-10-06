@@ -6,7 +6,7 @@ $('f-ram').innerHTML=RAMS.map(a=>`<label><input type="checkbox" value="${esc(a)}
 const kvIn=a=>a.map(([k,ph])=>`<div><label class="l">${esc(k)}</label><input data-k="${esc(k)}" maxlength="60" placeholder="${esc(ph)}"></div>`).join('');
 $('f-costs').innerHTML=kvIn(COSTS);$('f-dets').innerHTML=kvIn(DETS);
 function addUnit(u={}){const d=document.createElement('div');d.className='urow';
-  d.innerHTML=`<input class="u-no" maxlength="10" placeholder="Số phòng *" value="${esc(u.no||'')}"><input class="u-fl" maxlength="20" placeholder="Lầu (tùy chọn)" value="${esc(u.floor||'')}"><input class="u-pr" type="number" step="0.01" min="0.01" placeholder="Giá triệu (tùy chọn)" value="${u.price>0?num(u.price):''}"><button type="button" class="btn r s u-x">✕</button>`;
+  d.innerHTML=`<input class="u-no" maxlength="10" placeholder="Số phòng *" value="${esc(u.no||'')}"><input class="u-fl" maxlength="20" placeholder="Lầu (tùy chọn)" value="${esc(u.floor||'')}"><input class="u-pr vnd" type="text" inputmode="numeric" placeholder="Giá đ/tháng (tùy chọn)" value="${u.price>0?vnd(u.price):''}"><button type="button" class="btn r s u-x">✕</button>`;
   $('f-units').appendChild(d)}
 $('f-uadd').onclick=()=>addUnit();
 $('f-units').onclick=e=>{const x=e.target.closest('.u-x');if(x)x.parentElement.remove()};
@@ -30,7 +30,7 @@ function renderRooms(){
     return `<tr data-id="${r.id}"><td><span class="th" style="${r.image_path?`background-image:url('${esc(imgUrl(r.image_path))}')`:''}"></span></td>
 <td class="nm"><b>${esc(r.name)}</b><small>${esc(r.address)}</small></td><td><span class="tag">${esc(r.type)}</span></td>
 <td>${esc(r.district)}<br><small class="mut">${esc(r.city)}</small></td><td>${r.free_rooms}/${r.total_rooms}</td>
-<td class="pr">${r.discount?`<s style="color:#999;font-weight:400">${num(r.price_min)}</s> `:''}${num(d)}${+r.price_max!==+r.price_min?' – '+num(r.price_max):''}</td>
+<td class="pr">${r.discount?`<s style="color:#999;font-weight:400">${vnd(r.price_min)}</s> `:''}${vnd(d)}đ${+r.price_max!==+r.price_min?' – '+vnd(r.price_max)+'đ':''}</td>
 <td>${r.is_active?'<span class="tag ok">Đang hiển thị</span>':'<span class="tag off">Đang ẩn</span>'} ${r.hot?'<span class="tag hot">Hot</span>':''} ${r.discount?`<span class="tag blue">-${r.discount}%</span>`:''}</td>
 <td><div class="acts"><button class="btn g s" data-a="edit">Sửa</button><button class="btn g s" data-a="toggle">${r.is_active?'Ẩn':'Hiện'}</button><button class="btn r s" data-a="del">Xóa</button></div></td></tr>`}).join('')+'</table>'
     :'<div class="empty">Chưa có phòng nào. Bấm "+ Thêm phòng" để bắt đầu.</div>';
@@ -78,7 +78,7 @@ function openForm(r){
   const set=(id,v)=>$(id).value=v??'';
   set('f-name',r?.name);$('f-type').value=r?.type||TYPES[0];$('f-city').value=r?.city||CITIES[0];
   set('f-district',r?.district);set('f-address',r?.address);
-  set('f-pmin',r?num(r.price_min):'');set('f-pmax',r?num(r.price_max):'');set('f-disc',r?.discount??0);
+  set('f-pmin',r?vnd(r.price_min):'');set('f-pmax',r?vnd(r.price_max):'');set('f-disc',r?.discount??0);
   set('f-free',r?.free_rooms??1);set('f-total',r?.total_rooms??1);set('f-area',r?.area);set('f-desc',r?.description);
   document.querySelectorAll('#f-am input').forEach(i=>i.checked=!!r&&(r.amenities||[]).includes(i.value));
   $('f-hot').checked=!!r?.hot;$('f-active').checked=r?r.is_active:true;
@@ -91,10 +91,10 @@ function openForm(r){
 $('rf').onsubmit=async e=>{e.preventDefault();
   const v=id=>$(id).value.trim(),errs=[];
   const rec={name:v('f-name'),type:v('f-type'),city:v('f-city'),district:v('f-district'),address:v('f-address'),
-    free_rooms:+v('f-free'),total_rooms:+v('f-total'),price_min:+v('f-pmin'),price_max:+v('f-pmax'),discount:+v('f-disc')||0,
+    free_rooms:+v('f-free'),total_rooms:+v('f-total'),price_min:vndIn(v('f-pmin'))/1e6,price_max:vndIn(v('f-pmax'))/1e6,discount:+v('f-disc')||0,
     area:v('f-area')?+v('f-area'):null,description:v('f-desc')||null,hot:$('f-hot').checked,is_active:$('f-active').checked,
     amenities:[...document.querySelectorAll('#f-am input:checked')].map(i=>i.value),
-    units:[...document.querySelectorAll('#f-units .urow')].map(w=>({no:w.querySelector('.u-no').value.trim(),floor:w.querySelector('.u-fl').value.trim(),price:w.querySelector('.u-pr').value?+w.querySelector('.u-pr').value:null})).filter(u=>u.no||u.floor||u.price),
+    units:[...document.querySelectorAll('#f-units .urow')].map(w=>({no:w.querySelector('.u-no').value.trim(),floor:w.querySelector('.u-fl').value.trim(),price:vndIn(w.querySelector('.u-pr').value)?vndIn(w.querySelector('.u-pr').value)/1e6:null})).filter(u=>u.no||u.floor||u.price),
     room_amenities:[...document.querySelectorAll('#f-ram input:checked')].map(i=>i.value),
     costs:readKV('f-costs'),details:readKV('f-dets'),nearby:v('f-nearby')||null,verified:$('f-ver').checked};
   if(rec.units.some(u=>!u.no))errs.push('Mỗi dòng trong danh sách phòng phải có số phòng.');
@@ -104,7 +104,8 @@ $('rf').onsubmit=async e=>{e.preventDefault();
   if(!rec.name||!rec.district||!rec.address)errs.push('Vui lòng nhập tên, quận/huyện và địa chỉ.');
   if(rec.total_rooms<1)errs.push('Tổng số phòng phải từ 1 trở lên.');
   if(rec.free_rooms<0||rec.free_rooms>rec.total_rooms)errs.push('Số phòng trống phải từ 0 đến tổng số phòng.');
-  if(!(rec.price_min>0))errs.push('Giá thấp nhất phải lớn hơn 0 (đơn vị: triệu đồng).');
+  if(!(rec.price_min>0))errs.push('Giá thấp nhất phải lớn hơn 0 (nhập số tiền đầy đủ, VD: 1.500.000).');
+  if(rec.price_min>0&&(Math.round(rec.price_min*1e6)%10000||Math.round(rec.price_max*1e6)%10000||rec.units.some(u=>u.price&&Math.round(u.price*1e6)%10000)))errs.push('Giá cần làm tròn đến hàng chục nghìn đồng (VD: 1.550.000).');
   if(rec.price_max<rec.price_min)errs.push('Giá cao nhất phải lớn hơn hoặc bằng giá thấp nhất.');
   if(rec.discount<0||rec.discount>90)errs.push('Giảm giá từ 0 đến 90%.');
   if(imgs.length>MAXIMG)errs.push('Tối đa '+MAXIMG+' ảnh mỗi phòng.');

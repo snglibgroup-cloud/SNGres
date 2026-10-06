@@ -21,5 +21,5 @@ $('sf').onsubmit=e=>{e.preventDefault();st.q=$('q').value.trim();$('fq').value=s
 $('nf').onsubmit=e=>{e.preventDefault();const f=e.target,ph=f.querySelector('input').value.trim();
 sbq('leads',{method:'POST',headers:{Prefer:'return=minimal'},body:JSON.stringify({phone:ph})}).then(x=>{if(x.ok){f.reset();toast('Đã gửi! Nhân viên sẽ liên hệ bạn sớm.')}else toast('Gửi thất bại, vui lòng kiểm tra lại số điện thoại')}).catch(()=>toast('Không kết nối được máy chủ'))};
 $('bl').onclick=e=>{e.preventDefault();toast('Tính năng đăng nhập chưa được kết nối')};
-$('bf').onclick=()=>toast(fav.size?`Bạn đã yêu thích ${fav.size} phòng`:'Chưa có phòng yêu thích');
-$('bc').onclick=()=>toast(cart.size?`Lịch hẹn: ${[...cart].map(i=>R[i][0]).join(', ')}`:'Chưa có lịch hẹn nào');
+$('bf').onclick=()=>openDr('fav');
+$('bc').onclick=()=>openDr('cart');

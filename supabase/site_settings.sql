@@ -45,3 +45,10 @@ insert into public.site_settings (key, value) values
   ('book_zalo_label', 'SĐT Zalo (nếu khác số điện thoại ở trên)'),
   ('book_zalo_ph', 'Để trống nếu dùng chung số trên')
 on conflict (key) do nothing;
+
+-- Liên hệ nhanh: Zalo + SĐT (có nút copy) + lưu ý "liên hệ xem còn phòng không"
+insert into public.site_settings (key, value) values
+  ('contact_phone', ''),
+  ('contact_zalo_text', 'Chat Zalo tư vấn'),
+  ('contact_note', 'Lưu ý: Vui lòng liên hệ trước để xác nhận phòng còn trống hay không rồi hãy qua xem nhé, vì phòng có thể vừa được thuê.')
+on conflict (key) do nothing;

@@ -44,7 +44,7 @@ function render(){
   syncUI();
   document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t==st.tab));
   document.querySelectorAll('#ac button').forEach(b=>b.classList.toggle('on',st.am.has(b.dataset.a)));
-  $('cc').textContent=cart.size;$('fc').textContent=fav.size;
+  $('cc').textContent=cart.size;$('fc').textContent=fav.size;FC.save();
 }
 function deals(){const D=R.map((r,i)=>[r,i]).filter(([r])=>r[10]&&inCity(r));$('deals').parentElement.style.display=D.length?'':'none';$('deals').innerHTML=D.map(([r,i])=>`<div class="dl" data-i="${i}"><i style="background:${bg(r)}"></i><span class="bg">${r[10]}% off</span><span class="lt">Ưu đãi có hạn</span><div class="p">${fmt(dis(r),r[7])} <s>${r[6]}</s></div><div>${r[0]}</div></div>`).join('')}
 

@@ -116,3 +116,41 @@
 .gnv{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:var(--ink);font-size:26px;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(15,39,66,.22);padding:0 0 3px}
 .gnv.gp{left:12px}.gnv.gn{right:12px}.gnv:hover{background:#fff}
 .gct{position:absolute;left:12px;bottom:12px;background:rgba(15,39,66,.72);color:#fff;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:99px}
+
+/* panel liên hệ Zalo + SĐT + lưu ý */
+.ctp{max-height:0;overflow:hidden;opacity:0;transition:max-height .3s ease,opacity .25s ease,margin .3s ease;display:flex;flex-direction:column;gap:10px}
+.ctp.open{max-height:220px;opacity:1;margin-top:12px}
+.zlb{display:flex;align-items:center;justify-content:center;gap:10px;padding:12px 16px;border-radius:12px;background:#0068ff;color:#fff;font-weight:700;font-size:15.5px;text-decoration:none;box-shadow:0 6px 16px rgba(0,104,255,.3)}
+.zlb:hover{background:#0057d9}
+.zlb svg{background:#fff;border-radius:7px}
+.phr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1.5px dashed #c5d3f5;border-radius:12px;background:#f5f8ff}
+.phn{font-size:19px;font-weight:800;letter-spacing:.5px;color:#1a2a4d}
+.phc{display:inline-flex;align-items:center;gap:6px;border:0;cursor:pointer;font-family:inherit;font-weight:700;font-size:13.5px;padding:8px 12px;border-radius:9px;background:#3b63f5;color:#fff}
+.phc svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.phc.done{background:#16a34a}
+.ctn{display:flex;gap:9px;align-items:flex-start;margin-top:12px;padding:11px 13px;border-radius:12px;background:#fff7e6;border:1px solid #ffd58a;color:#7a4b00;font-size:13.5px;line-height:1.5}
+.ctn p{margin:0}
+.ctn[hidden]{display:none}
+
+/* bảng Yêu thích / Lịch hẹn */
+.dro{position:fixed;inset:0;z-index:1000}.dro[hidden]{display:none}
+.drb{position:absolute;inset:0;background:rgba(10,20,40,.5);opacity:0;transition:opacity .25s}
+.drp{position:absolute;top:0;right:0;height:100%;width:min(440px,100%);background:#fff;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease;box-shadow:-10px 0 30px rgba(0,0,0,.18)}
+.dro.on .drb{opacity:1}.dro.on .drp{transform:none}
+.drh{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid #e6ecf5;font-size:17px;color:#14233f}
+.drx{border:0;background:#eef2fa;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:15px}
+.drc{flex:1;overflow:auto;padding:14px 18px 24px}
+.dri{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #eef2f8}
+.dth{flex:none;width:84px;height:64px;border-radius:10px;cursor:pointer;background-size:cover!important}
+.dif{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.dif b{cursor:pointer;font-size:15px;color:#14233f}.dif small{color:#6b7a93;font-size:12.5px}
+.dif span{color:#c2571a;font-weight:700;font-size:14px}
+.dlk{align-self:flex-start;border:0;background:none;color:#3b63f5;font-weight:700;font-size:13px;cursor:pointer;padding:2px 0;font-family:inherit}
+.dok{color:#16a34a;font-size:12.5px;font-style:normal;font-weight:600}
+.ddx{border:0;background:none;color:#9aa6bb;cursor:pointer;font-size:16px;padding:4px}.ddx:hover{color:#e11d48}
+.dre{text-align:center;color:#6b7a93;padding:50px 10px;line-height:1.7}
+.drf{margin-top:16px;padding:14px;background:#f5f8ff;border-radius:14px;display:grid;gap:10px}
+.drf .fl2{display:flex;flex-direction:column;gap:5px}.drf label{font-size:13px;font-weight:600;color:#33425f}.drf label em{color:#e11d48;font-style:normal}
+.drf input{height:42px;border:1.5px solid #dfe5ef;border-radius:10px;padding:0 12px;font:inherit;background:#fff}
+.drf .bkb{margin-top:4px}
+.dlc{margin-top:14px;border:0;background:none;color:#8a96ab;font-size:13px;cursor:pointer;text-decoration:underline;font-family:inherit}
