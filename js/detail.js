@@ -24,12 +24,14 @@ ${cs.length?sec('Chi phí &amp; điều kiện',`<ul class="lv">${cs.map(c=>`<li
 ${dt.length?sec('Thông tin chi tiết',`<div class="kv">${dt.map(d=>`<div><span>${d[0]}</span><b class="${good(d[1])?'y':''}">${X(d[1])}</b></div>`).join('')}</div>`,`<em>${r[1]}</em>`):''}
 <div class="sx ds"><h4><span>${desc?'Mô tả':'Khu vực'}</span></h4><div id="cpd">${desc?`<p>${desc}</p>`:''}
 <div class="nb"><div><small>Khu vực</small><b>${area} · ${r[2]} · ${r[11]}</b></div>${poiA.length?`<div><small>Xung quanh có</small><div class="pl">${poiA.map(q=>`<span>${X(q[0])}${q[1]?`<em>${X(q[1])} phút</em>`:''}</span>`).join('')}</div></div>`:''}</div></div></div></div>`}
-function page(i){const r=R[i],rs=rooms(r);P={i,tab:0,dur:"12 tháng",n:1,rm:0};
+function gl(r){return r[23]&&r[23].length?r[23]:(r[14]?[r[14]]:[])}
+function page(i){const r=R[i],rs=rooms(r),im=gl(r);P={i,tab:0,dur:"12 tháng",n:1,rm:0,g:0};
 $('pg').innerHTML=`<div class="bc"><a href="#/">Cho thuê</a><i>/</i>${r[11]}<i>/</i>${r[2]}<i>/</i><b>${r[0]}</b></div>
 <div class="hd2"><div><div class="chips2"><span>${r[1]}</span>${r[9]?'<span class="hot">Hot 🔥</span>':''}${r[22]?'<span class="ok">✔ Đã xác thực</span>':''}<span>Trống ${r[4]}/${r[5]} phòng</span></div><h1>${r[0]}</h1></div>
 <div class="pr2"><b>${fmt(dis(r),r[7])}</b><small>mỗi tháng</small></div></div>
 <div class="dg2"><div>
-<div class="gm" id="gm" style="background:${bg(r)}"><button type="button" class="hbt ${fav.has(i)?'on':''}" id="hb" aria-label="Yêu thích"><svg viewBox="0 0 24 24"><path d="M12 20s-8-5-8-10.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 8 3.5C20 15 12 20 12 20z"/></svg><span>${fav.has(i)?'Đã thích':'Yêu thích'}</span></button></div>
+<div class="gm" id="gm" style="background:${im.length?`url('${im[0]}') center/contain no-repeat #eef3fb`:bg(r)}"><button type="button" class="hbt ${fav.has(i)?'on':''}" id="hb" aria-label="Yêu thích"><svg viewBox="0 0 24 24"><path d="M12 20s-8-5-8-10.5A4.5 4.5 0 0 1 12 6a4.5 4.5 0 0 1 8 3.5C20 15 12 20 12 20z"/></svg><span>${fav.has(i)?'Đã thích':'Yêu thích'}</span></button>${im.length>1?`<button type="button" class="gnv gp" data-gn="-1" aria-label="Ảnh trước">‹</button><button type="button" class="gnv gn" data-gn="1" aria-label="Ảnh sau">›</button><span class="gct" id="gct">1/${im.length}</span>`:''}</div>
+${im.length>1?`<div class="th2">${im.map((u,k)=>`<i data-gi="${k}" class="${k?'':'on'}" style="background:url('${u}') center/cover no-repeat"></i>`).join('')}</div>`:''}
 ${info(r,i)}
 <a class="bkl" href="#/">← Quay lại trang chủ</a></div>
 <aside class="side"><div class="cd"><div class="cdh"><b>Phòng trống</b><small>${r[4]} phòng</small></div>
@@ -52,7 +54,8 @@ ${rs.length?`<div class="rb" id="rl">${rs.map((x,k)=>`<button type="button" data
 <button type="button" class="bkb" id="bk">Đặt lịch xem phòng</button></div></aside></div>`}
 const mark=(sel,x)=>document.querySelectorAll(sel).forEach(o=>o.classList.toggle('on',o==x));
 $('pg').addEventListener('click',e=>{const c=k=>e.target.closest(k);let x;const r=R[P.i];
-if(x=c('#rl button')){P.rm=+x.dataset.m;mark('#rl button',x);{const u=rooms(r)[P.rm];$('bp').textContent=vnd(uPrice(r,u))+'đ';const sp=$('stpos');if(sp){sp.hidden=!u.floor;$('stposv').textContent=u.floor}}}
+if(x=c('[data-gi],[data-gn]')){const m=gl(R[P.i]),n=m.length,g=x.dataset.gi!==undefined?+x.dataset.gi:(P.g+(+x.dataset.gn)+n)%n;P.g=g;$('gm').style.background=`url('${m[g]}') center/contain no-repeat #eef3fb`;document.querySelectorAll('#pg .th2 i').forEach((o,k)=>o.classList.toggle('on',k==g));const t=$('gct');if(t)t.textContent=(g+1)+'/'+n}
+else if(x=c('#rl button')){P.rm=+x.dataset.m;mark('#rl button',x);{const u=rooms(r)[P.rm];$('bp').textContent=vnd(uPrice(r,u))+'đ';const sp=$('stpos');if(sp){sp.hidden=!u.floor;$('stposv').textContent=u.floor}}}
 else if(x=c('[data-cp]')){const t=P.txt,fb=()=>{const a=document.createElement('textarea');a.value=t;a.style.cssText='position:fixed;opacity:0';document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(_){}a.remove()};(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).catch(fb);x.classList.add('done');x.lastChild.textContent='Đã copy!';setTimeout(()=>{x.classList.remove('done');x.lastChild.textContent='Copy'},1500)}
 else if(c('#ad')){const i=P.i;cart.has(i)?cart.delete(i):cart.add(i);render();$('ad').textContent=cart.has(i)?'Đã có trong lịch hẹn ✓':'Thêm vào lịch hẹn';toast(cart.has(i)?'Đã thêm vào lịch hẹn':'Đã bỏ khỏi lịch hẹn')}
 else if(x=c('#hb')){const i=P.i,on=!fav.has(i);on?fav.add(i):fav.delete(i);render();x.classList.toggle('on',on);x.lastChild.textContent=on?'Đã thích':'Yêu thích';if(on){x.classList.remove('pop');void x.offsetWidth;x.classList.add('pop')}toast(on?'Đã thêm vào yêu thích':'Đã bỏ khỏi yêu thích')}

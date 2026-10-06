@@ -3,7 +3,7 @@
 const R2=()=>(CFG.R2_UPLOAD_URL||'').replace(/\/$/,'');
 const isUrl=p=>/^https?:\/\//.test(p||'');
 
-async function compressImage(file,maxSide=1600,quality=.82){
+async function compressImage(file,maxSide=2000,quality=.92){
   try{
     const bmp=await createImageBitmap(file);
     const k=Math.min(1,maxSide/Math.max(bmp.width,bmp.height));

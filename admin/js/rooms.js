@@ -47,12 +47,32 @@ $('rt').onclick=async e=>{const b=e.target.closest('[data-a]');if(!b)return;
   if(b.dataset.a==='del'){if(!confirm(`Xóa phòng "${r.name}"? Không thể hoàn tác.`))return;
     const {error}=await sb.from('rooms').delete().eq('id',r.id);
     if(error)return toast('Lỗi: '+error.message,true);
-    if(r.image_path)await removeImage(r.image_path);
+    for(const p of roomPaths(r))await removeImage(p);
     toast('Đã xóa phòng');loadAll()}};
 
 // ---------- form thêm / sửa ----------
 $('add').onclick=()=>openForm(null);
 $('fcancel').onclick=()=>{$('ov').hidden=true};
+// ----- nhiều ảnh: imgs = [{path,url} (đã có) | {file,url} (mới chọn)], ảnh đầu là ảnh bìa -----
+const MAXIMG=12;let imgs=[];
+const roomPaths=r=>r?(r.images&&r.images.length?r.images:(r.image_path?[r.image_path]:[])):[];
+function drawGal(){
+  $('f-gal').innerHTML=imgs.map((m,k)=>`<div class="gi${k?'':' cv'}" data-k="${k}" title="${k?'Bấm để đặt làm ảnh bìa':'Ảnh bìa'}" style="background-image:url('${esc(m.url)}')">${k?'':'<span class="gcv">Ảnh bìa</span>'}<button type="button" class="gx" data-x="${k}" aria-label="Xóa ảnh">×</button></div>`).join('');
+  $('f-cnt').textContent=imgs.length?`(${imgs.length}/${MAXIMG})`:''}
+$('f-gal').onclick=e=>{
+  const x=e.target.closest('[data-x]');
+  if(x){const [m]=imgs.splice(+x.dataset.x,1);if(m.file)URL.revokeObjectURL(m.url);drawGal();return}
+  const t=e.target.closest('.gi');
+  if(t&&+t.dataset.k>0){const [m]=imgs.splice(+t.dataset.k,1);imgs.unshift(m);drawGal()}};
+$('f-img').onchange=e=>{
+  const msgs=[];
+  for(const f of e.target.files){
+    if(imgs.length>=MAXIMG){msgs.push('Tối đa '+MAXIMG+' ảnh.');break}
+    if(!['image/jpeg','image/png','image/webp'].includes(f.type)){msgs.push(f.name+': chỉ nhận JPG, PNG, WebP.');continue}
+    if(f.size>15*1024*1024){msgs.push(f.name+': ảnh gốc tối đa 15MB.');continue}
+    imgs.push({file:f,url:URL.createObjectURL(f)})}
+  e.target.value='';drawGal();if(msgs.length)toast(msgs[0])};
+
 function openForm(r){
   editing=r;$('mt').textContent=r?'Sửa phòng #'+r.id:'Thêm phòng mới';$('ferr').hidden=true;
   const set=(id,v)=>$(id).value=v??'';
@@ -65,8 +85,7 @@ function openForm(r){
   $('f-units').innerHTML='';(r?.units||[]).forEach(addUnit);
   document.querySelectorAll('#f-ram input').forEach(i=>i.checked=!!r&&(r.room_amenities||[]).includes(i.value));
   fillKV('f-costs',r?.costs);fillKV('f-dets',r?.details);set('f-nearby',r?.nearby);$('f-ver').checked=!!r?.verified;
-  $('f-img').value='';$('f-rm').checked=false;
-  $('f-pv').hidden=!r?.image_path;if(r?.image_path)$('f-pvi').style.backgroundImage=`url('${imgUrl(r.image_path)}')`;
+  $('f-img').value='';imgs=roomPaths(r).map(p=>({path:p,url:imgUrl(p)}));drawGal();
   $('ov').hidden=false;$('ov').scrollTop=0}
 
 $('rf').onsubmit=async e=>{e.preventDefault();
@@ -88,17 +107,20 @@ $('rf').onsubmit=async e=>{e.preventDefault();
   if(!(rec.price_min>0))errs.push('Giá thấp nhất phải lớn hơn 0 (đơn vị: triệu đồng).');
   if(rec.price_max<rec.price_min)errs.push('Giá cao nhất phải lớn hơn hoặc bằng giá thấp nhất.');
   if(rec.discount<0||rec.discount>90)errs.push('Giảm giá từ 0 đến 90%.');
-  const file=$('f-img').files[0];
-  if(file){if(!['image/jpeg','image/png','image/webp'].includes(file.type))errs.push('Chỉ chấp nhận ảnh JPG, PNG hoặc WebP.');
-    else if(file.size>15*1024*1024)errs.push('Ảnh gốc tối đa 15MB (web sẽ tự nén nhỏ lại).')}
+  if(imgs.length>MAXIMG)errs.push('Tối đa '+MAXIMG+' ảnh mỗi phòng.');
   const fail=m=>{$('ferr').innerHTML=m.map(esc).join('<br>');$('ferr').hidden=false;$('ov').scrollTop=0;$('fsave').disabled=false};
   if(errs.length)return fail(errs);
   $('fsave').disabled=true;
-  let newPath=null;
-  if(file){try{newPath=await uploadImage(file)}catch(e){return fail(['Tải ảnh thất bại: '+e.message])}}
-  const old=editing?.image_path||null;
-  rec.image_path=newPath||($('f-rm').checked?null:old);
+  const uploaded=[],paths=[],total=imgs.filter(m=>m.file).length;let n=0;
+  for(const m of imgs){
+    if(!m.file){paths.push(m.path);continue}
+    $('fsave').textContent=`Đang tải ảnh ${++n}/${total}...`;
+    try{const p=await uploadImage(m.file);uploaded.push(p);paths.push(p)}
+    catch(e){$('fsave').textContent='Lưu';for(const p of uploaded)await removeImage(p);return fail(['Tải ảnh thất bại: '+e.message])}}
+  $('fsave').textContent='Lưu';
+  const old=roomPaths(editing);
+  rec.images=paths;rec.image_path=paths[0]||null;
   const {error}=editing?await sb.from('rooms').update(rec).eq('id',editing.id):await sb.from('rooms').insert(rec);
-  if(error){if(newPath)await removeImage(newPath);return fail(['Lưu thất bại: '+error.message])}
-  if(old&&old!==rec.image_path)await removeImage(old);
+  if(error){for(const p of uploaded)await removeImage(p);return fail(['Lưu thất bại: '+error.message])}
+  for(const p of old)if(!paths.includes(p))await removeImage(p);
   $('fsave').disabled=false;$('ov').hidden=true;toast(editing?'Đã lưu thay đổi':'Đã thêm phòng mới');loadAll()};

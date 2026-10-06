@@ -11,5 +11,5 @@ bucket_name = "sngres-images"
 [vars]
 SUPABASE_URL = "https://hczvarqmsxnvzldsmvrc.supabase.co"
 SUPABASE_KEY = "sb_publishable_uBxrsUoOT2tc20_4qVSAWg_8QhsQ2HS"
-PUBLIC_URL = "https://pub-xxxxxxxx.r2.dev"      # đổi thành địa chỉ công khai của bucket
+PUBLIC_URL = "https://pub-1dcbb87008a54a7faf10630e0e388ce1.r2.dev"
 ALLOWED_ORIGIN = "https://sngres-six.vercel.app"

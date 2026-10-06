@@ -103,10 +103,10 @@
     <div class="grid2">
       <div class="f"><label class="l">Mô tả</label><textarea id="f-desc" rows="5" maxlength="3000" placeholder="Giới thiệu ngắn về phòng, vị trí, điều kiện thuê... (để trống sẽ dùng mô tả tự động)"></textarea></div>
       <div class="f">
-        <label class="l">Ảnh đại diện (JPG/PNG/WebP, tự nén nhẹ khi tải lên)</label>
-        <div id="f-pv" hidden><div class="pv" id="f-pvi"></div><label style="font-size:14px"><input type="checkbox" id="f-rm" style="width:auto;height:auto"> Xóa ảnh hiện tại</label><br><br></div>
-        <input type="file" id="f-img" accept="image/jpeg,image/png,image/webp" style="height:auto;padding:8px">
-        <div class="hint">Chọn ảnh mới sẽ thay ảnh cũ. Không có ảnh thì web hiển thị nền màu mặc định.</div>
+        <label class="l">Ảnh phòng (JPG/PNG/WebP, chọn được nhiều ảnh) <span id="f-cnt" class="hint"></span></label>
+        <div id="f-gal" class="gal"></div>
+        <input type="file" id="f-img" accept="image/jpeg,image/png,image/webp" multiple style="height:auto;padding:8px">
+        <div class="hint">Bấm × để xóa ảnh. Bấm vào một ảnh để đặt làm ảnh bìa (ảnh đầu tiên hiện ở danh sách). Tối đa 12 ảnh, mỗi ảnh tự nén khi tải lên.</div>
       </div>
     </div>
     <div class="sec">Danh sách phòng trống (số phòng, lầu, giá)</div>

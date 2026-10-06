@@ -7,7 +7,7 @@
 .dg2{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:24px;align-items:start}
 .c2{background:#fff;border:1px solid var(--ln);border-radius:16px;padding:18px;box-shadow:0 6px 20px rgba(15,39,66,.06);margin-top:18px}.c2:first-child{margin-top:0}
 .c2 h3{font-size:13px;letter-spacing:.06em;color:var(--mut);margin-bottom:12px;text-transform:uppercase}
-#pg .gm{height:min(44vw,390px);border-radius:16px;border:1px solid var(--ln)}
+#pg .gm{height:min(56vw,520px);border-radius:16px;border:1px solid var(--ln)}
 #pg .th2{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}#pg .th2 i{aspect-ratio:16/9;border:2px solid transparent;box-shadow:none;border-radius:10px;opacity:.75}#pg .th2 i.on{border-color:var(--mar);opacity:1;outline:0}
 .am8{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}.am8 span{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;border-radius:12px;background:#f1f6fd;font-size:20px}.am8 span small{font-size:12px;color:var(--ink);font-weight:600}.am8 span.off{opacity:.3;filter:grayscale(1)}
 .cs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--ln)}.cs b{display:block;font-size:15px}.cs small{color:var(--mut);font-size:12px}
@@ -111,3 +111,8 @@
 
 .st{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}.st div[hidden]{display:none}
 #rl.rb button em{display:block;font-style:normal;font-size:10.5px;font-weight:600;opacity:.8;margin-top:1px}
+/* nhiều ảnh */
+#pg .th2 i{cursor:pointer;background-color:#eef3fb}
+.gnv{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:var(--ink);font-size:26px;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(15,39,66,.22);padding:0 0 3px}
+.gnv.gp{left:12px}.gnv.gn{right:12px}.gnv:hover{background:#fff}
+.gct{position:absolute;left:12px;bottom:12px;background:rgba(15,39,66,.72);color:#fff;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:99px}

@@ -234,3 +234,14 @@ alter table public.rooms
   add column if not exists details        jsonb   not null default '{}'::jsonb check (jsonb_typeof(details) = 'object'),
   add column if not exists nearby         text    check (char_length(nearby) <= 1000),
   add column if not exists verified       boolean not null default false;
+
+-- Nhiều ảnh mỗi phòng
+-- =====================================================================
+alter table public.rooms
+  add column if not exists images text[] not null default '{}'
+    check (cardinality(images) <= 12);
+
+-- Đưa ảnh đại diện cũ vào danh sách ảnh mới
+update public.rooms
+   set images = array[image_path]
+ where image_path is not null and cardinality(images) = 0;
