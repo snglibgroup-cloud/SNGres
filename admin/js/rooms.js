@@ -18,6 +18,12 @@ document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{
   document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('on',x===b));
   ['rooms','bookings','leads','site'].forEach(t=>$('v-'+t).hidden=t!==b.dataset.tab)});
 
+// Ảnh nhỏ trong danh sách: lấy ảnh đầu tiên (kể cả khi image_path trống mà images có ảnh), lỗi thì thử ảnh kế, hết thì hiện khung báo lỗi
+function thumb(r){const ps=roomPaths(r).filter(Boolean).map(imgUrl);
+  return ps.length?`<span class="th"><img src="${esc(ps[0])}" data-alt="${esc(JSON.stringify(ps.slice(1)))}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="thErr(this)"></span>`:'<span class="th nf" title="Chưa có ảnh"></span>'}
+function thErr(i){let a=[];try{a=JSON.parse(i.dataset.alt||'[]')}catch(_){}const n=a.shift();
+  if(n){i.dataset.alt=JSON.stringify(a);i.src=n;return}
+  i.onerror=null;const w=i.parentNode;w.classList.add('nf');w.title='Không tải được ảnh: '+i.src;i.remove()}
 // ---------- danh sách phòng ----------
 function renderRooms(){
   const q=S.q.toLowerCase();
@@ -27,7 +33,7 @@ function renderRooms(){
   const rows=L.slice((S.page-1)*PER,S.page*PER);
   $('rt').innerHTML=rows.length?`<table><tr><th></th><th>Phòng</th><th>Loại</th><th>Khu vực</th><th>Trống</th><th>Giá (triệu)</th><th>Trạng thái</th><th></th></tr>`+rows.map(r=>{
     const d=r.discount?Math.round(r.price_min*(100-r.discount)*10)/1000:r.price_min;
-    return `<tr data-id="${r.id}"><td><span class="th" style="${r.image_path?`background-image:url('${esc(imgUrl(r.image_path))}')`:''}"></span></td>
+    return `<tr data-id="${r.id}"><td>${thumb(r)}</td>
 <td class="nm"><b>${esc(r.name)}</b><small>${esc(r.address)}</small></td><td><span class="tag">${esc(r.type)}</span></td>
 <td>${esc(r.district)}<br><small class="mut">${esc(r.city)}</small></td><td>${r.free_rooms}/${r.total_rooms}</td>
 <td class="pr">${r.discount?`<s style="color:#999;font-weight:400">${vnd(r.price_min)}</s> `:''}${vnd(d)}đ${+r.price_max!==+r.price_min?' – '+vnd(r.price_max)+'đ':''}</td>

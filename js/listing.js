@@ -33,7 +33,7 @@ function syncUI(){
   $('fp').value=st.pr.size?String([...st.pr][0]):'';$('fs').value=st.sort;
   $('ft').value=st.tab;$('fam').textContent=st.am.size?`Tiện ích (${st.am.size})`:'Tiện ích'}
 function card(r,i){return `<article class="rc th" data-i="${i}"><div class="im" style="background:${bg(r)}"><div class="bd">${r[9]?'<span class="h">Hot 🔥</span>':''}${r[22]?'<span class="v">Đã xác thực</span>':''}${r[10]?`<span>-${r[10]}%</span>`:''}</div><button class="fav" data-f="${i}">${fav.has(i)?'♥':'♡'}</button></div>
-<div class="rb"><b>${r[0]}</b><div class="a">${r[3]}, ${r[2]}</div><div class="f">Trống ${r[4]}/${r[5]} phòng</div><div class="pr">${r[10]?`<s style="font-size:12px;color:#888;font-weight:400">${r[6]}</s> `:''}${fmt(dis(r),r[7])}</div></div></article>`}
+<div class="rbd"><b>${r[0]}</b><div class="a">${r[3]}, ${r[2]}</div><div class="f">Trống ${r[4]}/${r[5]} phòng</div><div class="pr">${r[10]?`<s style="font-size:12px;color:#888;font-weight:400">${r[6]}</s> `:''}${fmt(dis(r),r[7])}</div></div></article>`}
 function render(){
   let L=R.map((r,i)=>[r,i]).filter(([r])=>match(r));
   if(st.sort=='a')L.sort((a,b)=>a[0][6]-b[0][6]);else if(st.sort=='d')L.sort((a,b)=>b[0][7]-a[0][7]);else if(st.sort=='f')L.sort((a,b)=>b[0][4]-a[0][4]);
@@ -44,7 +44,7 @@ function render(){
   syncUI();
   document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t==st.tab));
   document.querySelectorAll('#ac button').forEach(b=>b.classList.toggle('on',st.am.has(b.dataset.a)));
-  $('cc').textContent=cart.size;$('fc').textContent=fav.size;FC.save();
+  $('cc').textContent=cart.size+(typeof BK!=='undefined'?BK.list().length:0);$('fc').textContent=fav.size;FC.save();
 }
 function deals(){const D=R.map((r,i)=>[r,i]).filter(([r])=>r[10]&&inCity(r));$('deals').parentElement.style.display=D.length?'':'none';$('deals').innerHTML=D.map(([r,i])=>`<div class="dl" data-i="${i}"><i style="background:${bg(r)}"></i><span class="bg">${r[10]}% off</span><span class="lt">Ưu đãi có hạn</span><div class="p">${fmt(dis(r),r[7])} <s>${r[6]}</s></div><div>${r[0]}</div></div>`).join('')}
 

@@ -1,0 +1,260 @@
+/* ==========================================================
+   responsive.css — tối ưu PC · tablet · mobile
+   Nạp SAU cùng (sau base/home/detail) nên ghi đè được.
+   Mốc: 1100 (laptop nhỏ) · 960 (tablet) · 760 (header 2 hàng) · 640 (điện thoại) · 380 (máy nhỏ)
+   ========================================================== */
+
+/* ---------- Nền tảng chung ---------- */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:76px}
+body{overflow-x:clip;-webkit-tap-highlight-color:transparent}
+img,svg{max-width:100%}
+.w{max-width:1240px}
+:focus-visible{outline:3px solid #ffb020;outline-offset:2px;border-radius:6px}
+button,select,a{touch-action:manipulation}
+.tabs,.nav-scroll,nav.cat .w,.sc,.qs{scrollbar-width:none}
+.tabs::-webkit-scrollbar,nav.cat .w::-webkit-scrollbar,.sc::-webkit-scrollbar,.qs::-webkit-scrollbar{display:none}
+.rbd b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3}
+.rbd .a{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.fav{display:grid;place-items:center}
+
+/* Chỉ hiệu ứng "nhấc lên" khi có chuột */
+@media(hover:none){.rc:hover,.tile:hover,.hbt:hover,.ctv:hover,.dl:hover{transform:none}}
+
+/* ---------- Máy tính: 961px trở lên ---------- */
+@media(min-width:961px){
+  body{padding-bottom:0}
+  .mb,.stk{display:none!important}
+  .hero1 .ban{min-height:340px}
+  .sl{padding:44px 56px}
+  .sl h2{font-size:clamp(30px,3vw,38px)}
+  .dots{left:56px;bottom:20px}
+  .grid{gap:18px}
+  .rc .im{height:170px}
+}
+
+/* ---------- Laptop nhỏ / tablet ngang: ≤1100px ---------- */
+@media(max-width:1100px){
+  header .w{gap:10px}
+  .ic{gap:6px}.ic button{width:44px;height:44px;display:grid;place-items:center}
+  .ic span{display:none}
+  .ic em{top:2px;right:2px}
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .dg{grid-template-columns:repeat(3,1fr)}
+  /* thanh lọc xuống dòng sớm hơn để không bị chật */
+  .bar2{display:grid;grid-template-columns:minmax(0,1fr) 190px auto;height:auto}
+  .ls{grid-column:1/-1;width:auto;padding:8px 10px;border-bottom:1px solid #e3e6f3}
+  #fcity,#fd{flex:1;width:auto;height:44px}
+  .bar2 input{height:54px;flex:none}
+  #fs{height:54px;width:auto}
+  .go{height:42px;align-self:center;padding:0 26px;margin:6px 8px 6px 6px}
+  .dg2{grid-template-columns:minmax(0,1fr) 340px;gap:18px}
+}
+
+/* ---------- Tablet: ≤960px ---------- */
+@media(max-width:960px){
+  body{padding-bottom:calc(66px + env(safe-area-inset-bottom,0px))}
+  .grid,.dg{grid-template-columns:repeat(3,1fr)}
+  .row3{grid-template-columns:repeat(3,1fr)}
+  .dg2{grid-template-columns:1fr}
+  .side{position:static}
+  .tiles{gap:12px}
+
+  /* thanh dưới cùng */
+  .mb{display:flex;justify-content:stretch;padding:0 0 env(safe-area-inset-bottom,0px);border-top:1px solid var(--ln);background:rgba(255,255,255,.96);-webkit-backdrop-filter:saturate(1.6) blur(12px);backdrop-filter:saturate(1.6) blur(12px);box-shadow:0 -6px 18px rgba(15,39,66,.08)}
+  .mb a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:58px;padding:6px 2px 4px;font-size:11.5px;font-weight:600;color:var(--mut);position:relative;transition:color .15s}
+  .mb svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .mb a.on{color:var(--mar)}
+  .mb a.on:before{content:"";position:absolute;top:0;left:30%;right:30%;height:3px;border-radius:0 0 3px 3px;background:var(--mar)}
+  .toast{bottom:calc(78px + env(safe-area-inset-bottom,0px));max-width:calc(100% - 32px);text-align:center}
+
+  /* thanh hành động cố định ở trang chi tiết */
+  .stk{position:fixed;left:0;right:0;bottom:0;z-index:45;display:flex;align-items:center;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.97);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--ln);box-shadow:0 -8px 24px rgba(15,39,66,.12);transform:translateY(110%);transition:transform .25s ease;pointer-events:none}
+  .stk.on{transform:none;pointer-events:auto}
+  .stk .sp{flex:1;min-width:0;line-height:1.2}
+  .stk .sp small{display:block;font-size:12px;color:var(--mut)}
+  .stk .sp b{display:block;font-size:19px;color:#d4622a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .stk button{height:48px;border-radius:12px;border:0;font:inherit;font-weight:700;font-size:15px;cursor:pointer;padding:0 16px;white-space:nowrap}
+  .stk .a{background:#fff;color:#3b63f5;border:2px solid #3b63f5}
+  .stk .b{background:#3b63f5;color:#fff;padding:0 20px}
+  body.on-detail .mb{display:none}
+  body.on-detail{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  body.on-detail .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+
+  /* ngăn kéo yêu thích/lịch hẹn */
+  .drp{height:100dvh;height:100svh}
+  .drc{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+  .drh{padding-top:calc(16px + env(safe-area-inset-top,0px))}
+}
+
+/* ---------- Header 2 hàng (tablet dọc + điện thoại): ≤760px ---------- */
+@media(max-width:760px){
+  header{top:-56px}                       /* hàng 1 cuộn đi, hàng tìm kiếm dính lại */
+  header .w{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"logo loc ic" "sb sb sb";align-items:center;column-gap:10px;row-gap:0;height:auto;padding:0 12px 10px}
+  header .logo{grid-area:logo;height:56px;display:flex;align-items:center;font-size:22px}
+  header .loc{grid-area:loc;min-width:0;height:56px;display:flex;flex-direction:column;justify-content:center;padding-left:4px;opacity:.95}
+  header .loc select{width:100%;max-width:none;text-overflow:ellipsis;font-size:14px;min-height:22px}
+  header .ic{grid-area:ic;height:56px}
+  header .sb{grid-area:sb;height:46px;border-radius:12px;overflow:hidden;box-shadow:0 2px 0 rgba(0,0,0,.25)}
+  .sb select{border-radius:0;max-width:112px;font-size:14px;color:var(--mar);font-weight:600;padding:0 6px 0 12px}
+  .sb input{padding:0 10px}
+  .sb button{width:54px;border-radius:0}
+  .ic button{width:42px;height:42px}
+  .ic svg{width:25px;height:25px}
+
+  nav.cat .w{height:44px;gap:6px;padding:0 12px}
+  nav.cat a{display:flex;align-items:center;height:44px;padding:0 10px;font-size:14px}
+  .ann{font-size:12px;line-height:1.4;padding:6px 12px}
+  html{scroll-padding-top:66px}
+}
+
+/* ---------- Điện thoại: ≤640px ---------- */
+@media(max-width:640px){
+  .w{padding:0 12px}
+  /* chống iOS tự zoom khi chạm vào ô nhập */
+  input,select,textarea{font-size:16px!important}
+  .th{border-width:2px;box-shadow:0 3px 0 var(--ink)}
+
+  /* banner */
+  .hero1{margin-top:12px}
+  .hero1 .ban{min-height:236px;border-radius:16px}
+  .sl{padding:22px 20px 46px;justify-content:center}
+  .sl h2{font-size:clamp(21px,6vw,25px);line-height:1.22}
+  .sl p{font-size:14px;margin:8px 0 14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .sl:after{width:260px;height:260px;right:-90px;top:-100px}
+  .sl .btn{padding:10px 22px;font-size:15px;min-height:44px;display:inline-flex;align-items:center}
+  .dots{left:20px;bottom:16px}
+  .dots i{width:9px;height:9px;position:relative}
+  .dots i:before{content:"";position:absolute;inset:-12px -4px}   /* vùng chạm lớn hơn */
+  .dots i.on{width:24px}
+
+  /* 4 ô loại hình: 2×2 gọn */
+  .tiles{gap:10px;margin-top:12px}
+  .tile{gap:10px;padding:10px 12px;border-radius:14px;min-width:0}
+  .tile i{width:40px;height:40px;font-size:21px;border-radius:12px}
+  .tile b{font-size:15px;white-space:nowrap}
+  .tile small{font-size:12px}
+
+  /* tìm nhanh: một hàng vuốt ngang, tràn mép */
+  .qs{flex-wrap:nowrap;overflow-x:auto;margin:12px -12px 0;padding:2px 12px 4px;gap:8px}
+  .qs b{flex:none}
+  .qs span{flex-wrap:nowrap;gap:8px}
+  .qs a{white-space:nowrap;display:flex;align-items:center;min-height:38px;padding:0 14px;font-size:14px}
+
+  /* bộ lọc */
+  .flt2{padding:10px;border-radius:18px;margin-top:14px}
+  .bar2{display:grid;grid-template-columns:1fr 1fr;border-radius:14px;height:auto}
+  .ls{grid-column:1/-1;width:auto;gap:0;padding:4px 6px 4px 12px}
+  .ls>span{margin-right:2px}
+  #fcity,#fd{height:44px;padding:0 4px;font-size:15px!important}
+  .bar2 input{grid-column:1/-1;height:48px;padding:0 14px;flex:none;border-bottom:1px solid #e3e6f3}
+  #fs{grid-column:1;width:auto;height:50px;border-left:0;font-size:15px!important;padding:0 10px}
+  .go{grid-column:2;height:40px;margin:5px;padding:0 10px;font-size:16px;border-radius:10px}
+  .row3{grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+  .amw{grid-column:1/-1}
+  .row3 select,#fam{height:48px;font-size:15px!important}
+  .amp{left:0;right:0;min-width:0;width:100%;max-height:52vh;overflow:auto;top:54px}
+  .chips button{min-height:38px;padding:0 14px}
+
+  /* ưu đãi */
+  .band{padding:12px 0 12px 12px;margin:18px -12px 0;border-radius:0}
+  .band h2{font-size:17px}
+  .sc{scroll-snap-type:x proximity;padding:0 12px 6px 0;gap:10px}
+  .dl{min-width:148px;scroll-snap-align:start}
+  .dl i{height:84px}
+
+  /* danh sách */
+  .sec{margin-top:24px}
+  .sh h2{font-size:20px}
+  .tabs{margin:0 -12px 14px;padding:0 12px;gap:4px;position:sticky;top:56px;z-index:12;background:var(--bg);border-bottom:1px solid var(--ln)}
+  .tabs button{padding:0 14px;min-height:46px;font-size:15px}
+  .grid{grid-template-columns:1fr 1fr;gap:10px}
+  .dg{grid-template-columns:1fr 1fr}
+  .rc{border-radius:14px}
+  .rc .im{height:auto;aspect-ratio:4/3}
+  .bd{top:6px;left:6px;gap:3px}.bd span{font-size:10.5px;padding:2px 7px}
+  .fav{width:36px;height:36px;top:6px;right:6px;font-size:17px}
+  .rbd{padding:10px;gap:3px}
+  .rbd b{font-size:14px}
+  .rbd .f{font-size:12px}
+  .rbd .pr{font-size:15px}
+  .mapv{height:420px}
+
+  /* nhận tư vấn */
+  .news{padding:28px 16px;border-radius:16px}
+  .news h2{font-size:22px;line-height:1.3}
+  .em{width:100%;height:50px;padding:0 6px 0 16px}
+  .em input{font-size:16px!important}
+  .em button{padding:0 16px;font-size:14px}
+
+  /* footer */
+  footer{margin-top:28px;padding:30px 0 16px}
+  .fgd{grid-template-columns:1fr 1fr;gap:20px}
+  .fgd>div:first-child{grid-column:1/-1}
+  footer h4{font-size:16px}
+
+  /* ---- Trang chi tiết ---- */
+  #pg{padding:12px 12px 24px}
+  .bc{white-space:nowrap;overflow-x:auto;scrollbar-width:none;margin-bottom:10px;padding-bottom:2px}
+  .bc::-webkit-scrollbar{display:none}
+  .hd2{gap:6px;margin-bottom:12px}
+  .hd2 h1{font-size:22px}
+  .pr2 b{font-size:24px}
+  #pg .gm{height:auto;aspect-ratio:4/3;border-radius:14px}
+  .gnv{width:38px;height:38px;font-size:24px}
+  .gnv.gp{left:8px}.gnv.gn{right:8px}
+  .hbt{top:10px;right:10px;height:38px;padding:0 12px 0 10px;font-size:13px}
+  #pg .th2{display:flex;overflow-x:auto;gap:8px;scrollbar-width:none;margin:8px -12px 0;padding:0 12px 2px}
+  #pg .th2::-webkit-scrollbar{display:none}
+  #pg .th2 i{flex:0 0 76px;aspect-ratio:4/3}
+  .c2,.side .cd{border-radius:16px}
+  .ib{border-radius:16px}
+  .ib .sx{padding:16px}
+  .ib h4{font-size:15px;margin-bottom:12px}
+  .ib .pz b{font-size:30px}
+  .st b{font-size:16px}
+  .lv li{padding:8px 0}
+  .kv{gap:8px}
+  .kv div{padding:9px 12px}
+  .am span{padding:7px 12px 7px 9px;font-size:13.5px}
+  #rl.rb{grid-template-columns:repeat(3,1fr);max-height:216px}
+  #rl.rb button{min-height:56px}
+  .fl2 input,.fl2 select{height:48px}
+  .fm{gap:10px}
+  .bkb,.cta{height:50px}
+  .ctv{padding:12px 14px}
+  .ctv .ct b{font-size:16px}
+  .ctv .ct small{font-size:12px}
+  .phn{font-size:18px}
+  .phc{min-height:40px}
+  .bkl{margin:16px 0 4px;display:inline-flex;align-items:center;min-height:44px}
+  .drp{width:100%}
+  .dth{width:76px;height:60px}
+  .ddx{padding:10px}
+}
+
+/* ---------- Máy rất nhỏ: ≤380px ---------- */
+@media(max-width:380px){
+  header .logo{font-size:20px}
+  header .loc{font-size:10.5px}
+  .ic button{width:38px}
+  .sb select{max-width:92px}
+  .tile{padding:9px 10px;gap:8px}
+  .tile i{width:36px;height:36px;font-size:19px}
+  .tile b{font-size:14px}
+  .rbd b{font-size:13.5px}
+  .mb a{font-size:10.5px}
+  #rl.rb{grid-template-columns:repeat(2,1fr)}
+  .stk .a{padding:0 12px}
+}
+@media(max-width:340px){.grid{grid-template-columns:1fr}}
+
+/* ---------- Ngang trên điện thoại (chiều cao thấp) ---------- */
+@media(max-height:480px) and (orientation:landscape){
+  .hero1 .ban{min-height:200px}
+  header{position:static}
+}
+
+/* ---------- Tôn trọng người dùng giảm chuyển động ---------- */
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}

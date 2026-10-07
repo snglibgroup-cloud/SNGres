@@ -60,3 +60,7 @@ label.l{display:block;font-size:13px;font-weight:600;color:#5b6b80;margin-bottom
 .gcv{position:absolute;left:4px;bottom:4px;background:#3b5bdb;color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:99px}
 .gx{position:absolute;top:4px;right:4px;width:24px;height:24px;border:0;border-radius:50%;background:rgba(15,39,66,.82);color:#fff;font-size:17px;line-height:1;cursor:pointer;padding:0}
 .gx:hover{background:#d92d20}
+
+.th{position:relative;overflow:hidden}
+.th img{width:100%;height:100%;object-fit:cover;display:block}
+.th.nf:after{content:"";position:absolute;inset:0;background:center/22px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a9bb5' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='16' rx='2'/%3E%3Ccircle cx='9' cy='10' r='1.6'/%3E%3Cpath d='M21 16l-5-5-8 9'/%3E%3C/svg%3E")}

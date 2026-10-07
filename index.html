@@ -2,11 +2,13 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f2742">
 <title>SNGres – Tìm phòng trọ, căn hộ dịch vụ</title>
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/detail.css">
+<link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 <div class="ann" id="ann"></div>
@@ -23,7 +25,6 @@
     <button id="bc"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M9 15l2 2 4-4"/></svg><span>Lịch hẹn</span><em id="cc">0</em></button>
   </div>
 </div></header>
-<nav class="cat"><div class="w"><a href="#lst" data-t="Tất cả" class="jt" data-set="nav_search"></a><a href="#lst" data-t="Căn hộ" class="jt" data-set="nav_apartment"></a><a href="#lst" data-t="Ký túc xá" class="jt" data-set="nav_dorm"></a><a href="#lst" data-t="Mặt bằng" class="jt" data-set="nav_space"></a></div></nav>
 
 <main class="w">
   <section class="hero1">
@@ -68,7 +69,7 @@
   <div><h4>Khu vực</h4><select style="background:transparent;color:#fff;border:2px solid #fff;border-radius:10px;padding:10px"><option style="color:#000">Việt Nam (VND ₫)</option></select></div>
 </div><div class="copy" data-set="copyright"></div></div></footer>
 
-<nav class="mb"><a href="#">&#8962;<br>Trang chủ</a><a href="#">&#9993;<br>Nhắn tin</a><a href="#lst">&#128269;<br>Tìm phòng</a><a href="#">&#128188;<br>Tìm việc</a><a href="#">&#128100;<br>Tài khoản</a></nav>
+<nav class="mb" aria-label="Điều hướng chính"><a href="#" data-mb="home" class="on"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg><span>Trang chủ</span></a><a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span>Nhắn tin</span></a><a href="#lst" data-mb="find"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span>Tìm phòng</span></a><a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18"/></svg><span>Tìm việc</span></a><a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg><span>Tài khoản</span></a></nav>
 
 <div class="toast" id="ts"></div>
 
@@ -81,5 +82,6 @@
 <script src="js/panel.js"></script>
 <script src="js/settings.js"></script>
 <script src="js/main.js"></script>
+<script src="js/responsive.js"></script>
 </body>
 </html>
